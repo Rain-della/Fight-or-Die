@@ -2,7 +2,7 @@ import pygame
 
 # TODO get or make a spritesheet(pixilated) for the character movement
 
-
+print("hellow world")
 # initializes every command
 
 pygame.init()
