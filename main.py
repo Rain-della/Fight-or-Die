@@ -5,7 +5,7 @@ import pygame
 
 pygame.init()
 # Creates a game window
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 800, 500
 
 win = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Fight Or Die")
