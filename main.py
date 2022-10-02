@@ -1,7 +1,5 @@
 import pygame
 
-# TODO get or make a spritesheet(pixilated) for the character movement
-
 
 # initializes every command
 
@@ -29,8 +27,8 @@ class Jack(object):
         self.left = False
 
     def draw(self, win):
-        win.fill((0,0,0))
-        pygame.draw.rect(win,(255,0,0), (self.x, self.y, self.width, self.height))
+        win.fill((0, 0, 0))
+        pygame.draw.rect(win, (255, 0, 0), (self.x, self.y, self.width, self.height))
         self.hitbox = (self.x - 14, self.y - 6.5, 90, 75)
         if self.health >= 0:
             pygame.draw.rect(
@@ -45,7 +43,6 @@ class Jack(object):
 
 # The enemy class with all the enemy attributes and functions
 class Enemy(object):
-
     def __init__(self, x, y, width, height):
         self.x = self.original_x = x
         self.y = self.original_y = y
@@ -174,14 +171,14 @@ while run:
         player.x -= player.vel
         player.left = True
         player.right = False
-    elif keys[pygame.K_b]:
+    elif keys[pygame.K_RCTRL]:
         if (
             player.x + player.width > rubi.hitbox[0]
             and player.x - player.width < rubi.hitbox[0] + rubi.hitbox[2]
         ):
             rubi.health -= 0.5
 
-    elif keys[pygame.K_TAB]:
+    elif keys[pygame.K_SEMICOLON]:
         if (
             player.x + player.width > rubi.hitbox[0]
             and player.x - player.width < rubi.hitbox[0] + rubi.hitbox[2]
@@ -195,7 +192,7 @@ while run:
         ):
             rubi.health -= 0.5
 
-    elif keys[pygame.K_LSHIFT] and shootcycle == 0:
+    elif keys[pygame.K_RSHIFT] and shootcycle == 0:
         if player.left:
             facing = -1
         else:
@@ -235,7 +232,7 @@ while run:
         rubi.left = True
         rubi.right = False
 
-    elif keys[pygame.K_k]:
+    elif keys[pygame.K_LCTRL]:
         if (
             rubi.x + rubi.width > player.hitbox[0]
             and rubi.x - rubi.width < player.hitbox[0] + player.hitbox[2]
@@ -248,7 +245,7 @@ while run:
             and rubi.x - rubi.width < player.hitbox[0] + rubi.hitbox[2]
         ):
             player.health -= 0.5
-    elif keys[pygame.K_RSHIFT] and shootloop == 0:
+    elif keys[pygame.K_LSHIFT] and shootloop == 0:
         if rubi.left:
             facing = -1
         else:
