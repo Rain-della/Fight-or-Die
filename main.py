@@ -1,5 +1,8 @@
 import pygame
 
+#! i made a 2 projectile classes for each player to try and fix the clumping of the bullets with player 2
+#! IT didnt work but i am going to leave it there becuase i feel it looks better like that
+
 
 # initializes every command
 
@@ -11,8 +14,8 @@ win = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Fight Or Die")
 clock = pygame.time.Clock()
 score = pygame.font.SysFont("arial", 50, True)
-# The player class with  all the player attributes and functions
-class Jack(object):
+# The player1 class with  all the player1 attributes and functions
+class P1(object):
     def __init__(self, x, y, width, height):
         self.x = self.original_x = x
         self.y = self.original_y = y
@@ -41,8 +44,8 @@ class Jack(object):
         self.health = self.original_health
 
 
-# The enemy class with all the enemy attributes and functions
-class Enemy(object):
+# The player2 class with all the enemy attributes and functions
+class P2(object):
     def __init__(self, x, y, width, height):
         self.x = self.original_x = x
         self.y = self.original_y = y
@@ -70,8 +73,22 @@ class Enemy(object):
         self.health = self.original_health
 
 
-# The projectile class for all the throwable weapons
-class Projectile(object):
+# The projectile class for all player 1 throwable weapons
+class Projectile1(object):
+    def __init__(self, x, y, radius, color, facing):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+        self.facing = facing
+        self.vel = 8 * facing
+
+    def draw(self, win):
+        pygame.draw.circle(win, (255, 255, 255), (self.x, self.y), self.radius)
+
+
+# The projectile for all player 2 throwable objects
+class Projectile2(object):
     def __init__(self, x, y, radius, color, facing):
         self.x = x
         self.y = y
@@ -86,8 +103,8 @@ class Projectile(object):
 
 # Make sure every things comes on screen
 def redrawgamewindow():
-    player.draw(win)
-    rubi.draw(win)
+    player1.draw(win)
+    player2.draw(win)
     for dagger in daggers:
         dagger.draw(win)
     for bullet in bullets:
@@ -96,8 +113,8 @@ def redrawgamewindow():
 
 
 # The classes allocated into one name
-player = Jack(550, 400, 64, 64)
-rubi = Enemy(500, 400, 64, 64)
+player1 = P1(550, 400, 64, 64)
+player2 = P2(500, 400, 64, 64)
 shootcycle = 0
 shootloop = 0
 daggers = []
@@ -117,11 +134,11 @@ while run:
     if shootloop > 3:
         shootloop = 0
 
-    if player.health <= 0:
-        player.reset()
+    if player1.health <= 0:
+        player1.reset()
 
-    if rubi.health <= 0:
-        rubi.reset()
+    if player2.health <= 0:
+        player2.reset()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -129,14 +146,14 @@ while run:
 
     for dagger in daggers:
         if (
-            dagger.y - dagger.radius < rubi.hitbox[1] + rubi.hitbox[3]
-            and dagger.y + dagger.radius > rubi.hitbox[1]
+            dagger.y - dagger.radius < player2.hitbox[1] + player2.hitbox[3]
+            and dagger.y + dagger.radius > player2.hitbox[1]
         ):
             if (
-                dagger.x + dagger.radius > rubi.hitbox[0]
-                and dagger.x - dagger.radius < rubi.hitbox[0] + rubi.hitbox[2]
+                dagger.x + dagger.radius > player2.hitbox[0]
+                and dagger.x - dagger.radius < player2.hitbox[0] + player2.hitbox[2]
             ):
-                rubi.health -= 1
+                player2.health -= 1
                 daggers.pop(daggers.index(dagger))
 
         if dagger.x < 800 and dagger.x > 0:
@@ -146,14 +163,14 @@ while run:
 
     for bullet in bullets:
         if (
-            bullet.y - bullet.radius < player.hitbox[1] + player.hitbox[3]
-            and bullet.y + bullet.radius > player.hitbox[1]
+            bullet.y - bullet.radius < player1.hitbox[1] + player1.hitbox[3]
+            and bullet.y + bullet.radius > player1.hitbox[1]
         ):
             if (
-                bullet.x + bullet.radius > player.hitbox[0]
-                and bullet.x - bullet.radius < player.hitbox[0] + player.hitbox[2]
+                bullet.x + bullet.radius > player1.hitbox[0]
+                and bullet.x - bullet.radius < player1.hitbox[0] + player1.hitbox[2]
             ):
-                player.health -= 1
+                player1.health -= 1
                 bullets.pop(bullets.index(bullet))
 
         if bullet.x < 800 and bullet.x > 0:
@@ -163,45 +180,45 @@ while run:
     # Key mapping code
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_RIGHT] and player.x < WIDTH - player.width - player.vel:
-        player.x += player.vel
-        player.right = True
-        player.left = False
-    elif keys[pygame.K_LEFT] and player.x > player.vel:
-        player.x -= player.vel
-        player.left = True
-        player.right = False
+    if keys[pygame.K_RIGHT] and player1.x < WIDTH - player1.width - player1.vel:
+        player1.x += player1.vel
+        player1.right = True
+        player1.left = False
+    elif keys[pygame.K_LEFT] and player1.x > player1.vel:
+        player1.x -= player1.vel
+        player1.left = True
+        player1.right = False
     elif keys[pygame.K_RCTRL]:
         if (
-            player.x + player.width > rubi.hitbox[0]
-            and player.x - player.width < rubi.hitbox[0] + rubi.hitbox[2]
+            player1.x + player1.width > player2.hitbox[0]
+            and player1.x - player1.width < player2.hitbox[0] + player2.hitbox[2]
         ):
-            rubi.health -= 0.5
+            player2.health -= 0.5
 
     elif keys[pygame.K_SEMICOLON]:
         if (
-            player.x + player.width > rubi.hitbox[0]
-            and player.x - player.width < rubi.hitbox[0] + rubi.hitbox[2]
+            player1.x + player1.width > player2.hitbox[0]
+            and player1.x - player1.width < player2.hitbox[0] + player2.hitbox[2]
         ):
-            rubi.health -= 0.5
+            player2.health -= 0.5
 
     elif keys[pygame.K_DOWN]:
         if (
-            player.x + player.width > rubi.hitbox[0]
-            and player.x - player.width < rubi.hitbox[0] + rubi.hitbox[2]
+            player1.x + player1.width > player2.hitbox[0]
+            and player1.x - player1.width < player2.hitbox[0] + player2.hitbox[2]
         ):
-            rubi.health -= 0.5
+            player2.health -= 0.5
 
     elif keys[pygame.K_RSHIFT] and shootcycle == 0:
-        if player.left:
+        if player1.left:
             facing = -1
         else:
             facing = 1
         if len(daggers) < 10:
             daggers.append(
-                Projectile(
-                    round(player.x + player.width // 2),
-                    round(player.y + player.height // 2),
+                Projectile1(
+                    round(player1.x + player1.width // 2),
+                    round(player1.y + player1.height // 2),
                     6,
                     (0, 0, 0),
                     facing,
@@ -210,52 +227,52 @@ while run:
 
         shootcycle = 1
 
-    if not (player.isJump):
+    if not (player1.isJump):
         if keys[pygame.K_UP]:
-            player.isJump = True
+            player1.isJump = True
 
     else:
-        if player.jumpCount >= -10:
-            player.y -= (player.jumpCount * abs(player.jumpCount)) * 0.5
-            player.jumpCount -= 1
+        if player1.jumpCount >= -10:
+            player1.y -= (player1.jumpCount * abs(player1.jumpCount)) * 0.5
+            player1.jumpCount -= 1
         else:
-            player.isJump = False
-            player.jumpCount = 10
+            player1.isJump = False
+            player1.jumpCount = 10
 
-    if keys[pygame.K_d] and rubi.x < WIDTH - rubi.width - rubi.vel:
-        rubi.x += rubi.vel
-        rubi.right = True
-        rubi.left = False
+    if keys[pygame.K_d] and player2.x < WIDTH - player2.width - player2.vel:
+        player2.x += player2.vel
+        player2.right = True
+        player2.left = False
 
-    elif keys[pygame.K_a] and rubi.x > rubi.vel:
-        rubi.x -= rubi.vel
-        rubi.left = True
-        rubi.right = False
+    elif keys[pygame.K_a] and player2.x > player2.vel:
+        player2.x -= player2.vel
+        player2.left = True
+        player2.right = False
 
     elif keys[pygame.K_LCTRL]:
         if (
-            rubi.x + rubi.width > player.hitbox[0]
-            and rubi.x - rubi.width < player.hitbox[0] + player.hitbox[2]
+            player2.x + player2.width > player1.hitbox[0]
+            and player2.x - player2.width < player1.hitbox[0] + player1.hitbox[2]
         ):
-            player.health -= 0.5
+            player1.health -= 0.5
 
     elif keys[pygame.K_SPACE]:
         if (
-            rubi.x + rubi.width > player.hitbox[0]
-            and rubi.x - rubi.width < player.hitbox[0] + rubi.hitbox[2]
+            player2.x + player2.width > player1.hitbox[0]
+            and player2.x - player2.width < player1.hitbox[0] + player2.hitbox[2]
         ):
-            player.health -= 0.5
+            player1.health -= 0.5
     elif keys[pygame.K_LSHIFT] and shootloop == 0:
-        if rubi.left:
+        if player2.left:
             facing = -1
         else:
             facing = 1
 
         if len(bullets) < 10:
             bullets.append(
-                Projectile(
-                    round(rubi.x + rubi.width // 2),
-                    round(rubi.y + rubi.height // 2),
+                Projectile2(
+                    round(player2.x + player2.width // 2),
+                    round(player2.y + player2.height // 2),
                     6,
                     (0, 0, 0),
                     facing,
@@ -264,17 +281,17 @@ while run:
 
         shootLoop = 1
 
-    if not (rubi.isJump):
+    if not (player2.isJump):
         if keys[pygame.K_w]:
-            rubi.isJump = True
+            player2.isJump = True
 
     else:
-        if rubi.jumpCount >= -10:
-            rubi.y -= (rubi.jumpCount * abs(rubi.jumpCount)) * 0.5
-            rubi.jumpCount -= 1
+        if player2.jumpCount >= -10:
+            player2.y -= (player2.jumpCount * abs(player2.jumpCount)) * 0.5
+            player2.jumpCount -= 1
         else:
-            rubi.isJump = False
-            rubi.jumpCount = 10
+            player2.isJump = False
+            player2.jumpCount = 10
 
     # Calling the callable functions
     redrawgamewindow()
