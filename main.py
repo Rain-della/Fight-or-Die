@@ -195,21 +195,21 @@ while run:
             player1.x + player1.width > player2.hitbox[0]
             and player1.x - player1.width < player2.hitbox[0] + player2.hitbox[2]
         ):
-            player2.health -= 0.5 #type: ignore
+            player2.health -= 0.5  # type: ignore
 
     elif keys[pygame.K_SEMICOLON]:
         if (
             player1.x + player1.width > player2.hitbox[0]
             and player1.x - player1.width < player2.hitbox[0] + player2.hitbox[2]
         ):
-            player2.health -= 0.5 #type: ignore
+            player2.health -= 0.5  # type: ignore
 
     elif keys[pygame.K_DOWN]:
         if (
             player1.x + player1.width > player2.hitbox[0]
             and player1.x - player1.width < player2.hitbox[0] + player2.hitbox[2]
         ):
-            player2.health -= 0.5 #type: ignore
+            player2.health -= 0.5  # type: ignore
 
     elif keys[pygame.K_RSHIFT] and shootcycle == 0:
         if player1.left:
@@ -235,7 +235,7 @@ while run:
 
     else:
         if player1.jumpCount >= -10:
-            player1.y -= (player1.jumpCount * abs(player1.jumpCount)) * 0.5 #type: ignore
+            player1.y -= (player1.jumpCount * abs(player1.jumpCount)) * 0.5  # type: ignore
             player1.jumpCount -= 1
         else:
             player1.isJump = False
@@ -256,7 +256,7 @@ while run:
             player2.x + player2.width > player1.hitbox[0]
             and player2.x - player2.width < player1.hitbox[0] + player1.hitbox[2]
         ):
-            player1.health -= 0.5  #type: ignore
+            player1.health -= 0.5  # type: ignore
 
     elif keys[pygame.K_SPACE]:
         if (
