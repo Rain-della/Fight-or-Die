@@ -15,6 +15,8 @@ pygame.display.set_caption("Fight Or Die")
 clock = pygame.time.Clock()
 score = pygame.font.SysFont("arial", 50, True)
 # The player1 class with  all the player1 attributes and functions
+
+
 class P1(object):
     def __init__(self, x, y, width, height):
         self.x = self.original_x = x
@@ -84,7 +86,7 @@ class Projectile1(object):
         self.vel = 8 * facing
 
     def draw(self, win):
-        pygame.draw.circle(win, (255, 255, 255), (self.x, self.y), self.radius)
+        pygame.draw.circle(win, (255, 0, 0), (self.x, self.y), self.radius)
 
 
 # The projectile for all player 2 throwable objects
@@ -98,7 +100,7 @@ class Projectile2(object):
         self.vel = 8 * facing
 
     def draw(self, win):
-        pygame.draw.circle(win, (255, 255, 255), (self.x, self.y), self.radius)
+        pygame.draw.circle(win, (255, 155, 0), (self.x, self.y), self.radius)
 
 
 # Make sure every things comes on screen
@@ -193,21 +195,21 @@ while run:
             player1.x + player1.width > player2.hitbox[0]
             and player1.x - player1.width < player2.hitbox[0] + player2.hitbox[2]
         ):
-            player2.health -= 0.5
+            player2.health -= 0.5 #type: ignore
 
     elif keys[pygame.K_SEMICOLON]:
         if (
             player1.x + player1.width > player2.hitbox[0]
             and player1.x - player1.width < player2.hitbox[0] + player2.hitbox[2]
         ):
-            player2.health -= 0.5
+            player2.health -= 0.5 #type: ignore
 
     elif keys[pygame.K_DOWN]:
         if (
             player1.x + player1.width > player2.hitbox[0]
             and player1.x - player1.width < player2.hitbox[0] + player2.hitbox[2]
         ):
-            player2.health -= 0.5
+            player2.health -= 0.5 #type: ignore
 
     elif keys[pygame.K_RSHIFT] and shootcycle == 0:
         if player1.left:
@@ -233,7 +235,7 @@ while run:
 
     else:
         if player1.jumpCount >= -10:
-            player1.y -= (player1.jumpCount * abs(player1.jumpCount)) * 0.5
+            player1.y -= (player1.jumpCount * abs(player1.jumpCount)) * 0.5 #type: ignore
             player1.jumpCount -= 1
         else:
             player1.isJump = False
@@ -254,14 +256,14 @@ while run:
             player2.x + player2.width > player1.hitbox[0]
             and player2.x - player2.width < player1.hitbox[0] + player1.hitbox[2]
         ):
-            player1.health -= 0.5
+            player1.health -= 0.5  #type: ignore
 
     elif keys[pygame.K_SPACE]:
         if (
             player2.x + player2.width > player1.hitbox[0]
             and player2.x - player2.width < player1.hitbox[0] + player2.hitbox[2]
         ):
-            player1.health -= 0.5
+            player1.health -= 0.5  # type: ignore
     elif keys[pygame.K_LSHIFT] and shootloop == 0:
         if player2.left:
             facing = -1
@@ -287,7 +289,7 @@ while run:
 
     else:
         if player2.jumpCount >= -10:
-            player2.y -= (player2.jumpCount * abs(player2.jumpCount)) * 0.5
+            player2.y -= (player2.jumpCount * abs(player2.jumpCount)) * 0.5  # type: ignore
             player2.jumpCount -= 1
         else:
             player2.isJump = False
