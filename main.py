@@ -1,7 +1,8 @@
 import pygame
 
 #! i made a 2 projectile classes for each player to try and fix the clumping of the bullets with player 2
-#! IT didnt work but i am going to leave it there becuase i feel it looks better like that
+#! IT didnt work but i am going to leave it there because i feel it looks better like that
+#TODO make a main menu screen and a pause function/screen for the game
 
 
 # initializes every command
