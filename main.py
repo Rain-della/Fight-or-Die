@@ -24,10 +24,11 @@ def set_difficulty(value, difficulty):
     print(value)
     print(difficulty)
 
+   
 
 def start_the_game():
     mainmenu._open(loading)
-    pygame.time.set_timer(update_loading, 30)
+    pygame.time.set_timer(update_loading, 10)
 
 
 mainmenu = pygame_menu.Menu("Welcome", 800, 500, theme=themes.THEME_SOLARIZED)
@@ -181,6 +182,7 @@ while run:
             progress.set_value(progress.get_value() + 1)
             if progress.get_value() == 100:
                 pygame.time.set_timer(update_loading, 0)
+                event.type ==  run
         if event.type == pygame.QUIT:
             run = False
 
